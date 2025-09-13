@@ -1,0 +1,27 @@
+.menu-lateral {
+  width: 200px;
+  background: #2c3e50;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.menu-lateral h2 {
+  margin-top: 0;
+}
+
+.menu-lateral ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-lateral li {
+  margin: 15px 0;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.menu-lateral li:hover {
+  color: #18bc9c;
+}

@@ -1,4 +1,4 @@
-# ReAlmate Challenge - Desafio Técnico
+# Realmate Challenge - Desafio Técnico
 
 Este projeto foi desenvolvido como parte de um **desafio técnico**. Ele consiste em um sistema backend em **Django** com autenticação JWT via cookies e um frontend em **React** para gerenciamento de conversas recebidos de webhook.
 

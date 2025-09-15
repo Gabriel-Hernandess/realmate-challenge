@@ -27,3 +27,14 @@ class Message(models.Model):
 
     def __str__(self):
         return f"Message {self.id} ({self.direction})"
+    
+
+class ConversationSummary(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    conversation = models.ForeignKey(Conversation, related_name="summaries", on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    summary = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('conversation', 'date')

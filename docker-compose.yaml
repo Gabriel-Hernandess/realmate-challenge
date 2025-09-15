@@ -31,6 +31,8 @@ services:
     depends_on:
       - db
       - redis
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
 
   celery:
     build:
@@ -53,6 +55,6 @@ services:
     ports:
       - "3000:3000"
     volumes:
-    - ./frontend/dashboard:/app   # monta os arquivos do host no container
-    - /app/node_modules           # evita conflito de node_modules entre host e container
+    - ./frontend/dashboard:/app
+    - /app/node_modules
     command: npm start

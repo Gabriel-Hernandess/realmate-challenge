@@ -8,6 +8,7 @@ export default function APIsPage() {
     { path: "/auth/logout/", method: "POST", description: "Logout user" },
     { path: "/conversations/", method: "GET", description: "List all conversations" },
     { path: "/conversations/<uuid:pk>/", method: "GET", description: "Get a single conversation by UUID" },
+    { path: "/conversations/<uuid:pk>/summaries/", method: "GET", description: "Get summaries from a single conversation" },
     { path: "/webhook/", method: "POST", description: "Webhook endpoint" },
   ];
 

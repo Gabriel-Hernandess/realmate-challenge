@@ -42,6 +42,7 @@ Isso fará:
 Se precisar rodar manualmente:
 
 ```
+docker-compose exec web sh -c "poetry run python manage.py makemigrations"
 docker-compose exec web sh -c "poetry run python manage.py migrate"
 ```
 
@@ -56,12 +57,13 @@ docker-compose exec web sh -c "poetry run python manage.py createsuperuser"
 * Rotas **protegidas** (requer cookie JWT válido):
 
   * `GET http://localhost/conversations/`  → Listar todas as conversas
+  * `POST http://localhost/auth/refresh-token/` → Refresh token
+  * `POST http://localhost/auth/logout/`   → Logout
+  * `GET http://localhost/conversations/<uuid:pk>/summaries/`   → Relatórios de conversa específica
 * Rotas **públicas** (não exigem autenticação):
 
   * `POST http://localhost/webhook/`       → Receber eventos do webhook
   * `POST http://localhost/auth/login/`    → Login
-  * `POST http://localhost/auth/refresh-token/` → Refresh token
-  * `POST http://localhost/auth/logout/`   → Logout (exige cookie válido)
   * `GET http://localhost/conversations/<uuid:pk>/` → Obter conversa específica do desafio
 
 > Cookies:
@@ -92,7 +94,7 @@ npm start
 
 * **Menu lateral**
 
-  * Conversations → Lista de conversas, clicar abre modal estilo WhatsApp
+  * Conversations → Lista de conversas, clicar abre modal estilo WhatsApp com mensagens e relatório diário da conversa
   * APIs → Mostra todas as rotas disponíveis
   * Logout → Pergunta se deseja sair e remove cookies
 
@@ -102,6 +104,7 @@ npm start
   * Mensagens enviadas → alinhadas à direita
   * Data abaixo da mensagem
   * Estilo “balões” como WhatsApp
+  * Abaixo o relatório da conversa, gerado por IA
   * Botão de fechar no canto superior direito
 
 ## 5. Observações finais

@@ -32,17 +32,37 @@ export default function Conversations() {
 
       <Modal isOpen={!!selected} onClose={() => setSelected(null)}>
         {selected && (
-          <div className="messages">
-            {selected.messages.map((m, idx) => (
-              <div
-                key={idx}
-                className={`message-bubble ${m.direction === "RECEIVED" ? "received" : "sent"}`}
-              >
-                <div className="message-content">{m.content}</div>
-                <div className="message-date">{new Date(m.created_at).toLocaleString()}</div>
+          <>
+            <div className="messages">
+              {selected.messages.map((m, idx) => (
+                <div
+                  key={idx}
+                  className={`message-bubble ${
+                    m.direction === "RECEIVED" ? "received" : "sent"
+                  }`}
+                >
+                  <div className="message-content">{m.content}</div>
+                  <div className="message-date">
+                    {new Date(m.created_at).toLocaleString()}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Último resumo exibido abaixo das mensagens */}
+            {selected.latest_summary && (
+              <div className="conversation-summary">
+                <h4>Resumo do dia:</h4>
+                <p>{selected.latest_summary}</p>
+                {selected.latest_summary_date && (
+                  <small>
+                    Gerado em{" "}
+                    {new Date(selected.latest_summary_date).toLocaleDateString()}
+                  </small>
+                )}
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
       </Modal>
     </div>

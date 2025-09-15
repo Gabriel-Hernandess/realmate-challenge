@@ -1,10 +1,9 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from django.db.models import OuterRef, Subquery
 
 from .tasks import process_webhook_task
-from .models import Conversation, Message
+from .models import Conversation, ConversationSummary
 from .serializers import ConversationSerializer
 
 from rest_framework.views import APIView
@@ -53,11 +52,20 @@ class GetConversations(APIView):
 
     def get(self, request):
         try:
-            conversations = Conversation.objects.all().prefetch_related('messages')
+            latest_summary = ConversationSummary.objects.filter(
+                conversation=OuterRef("pk")
+            ).order_by("-date")
+
+            conversations = Conversation.objects.all().annotate(
+                latest_summary=Subquery(latest_summary.values("summary")[:1]),
+                latest_summary_date=Subquery(latest_summary.values("date")[:1]),
+            ).prefetch_related("messages")
+
             serializer = ConversationSerializer(conversations, many=True)
-            return Response({'success': True, 'conversations': serializer.data}, status=200)
+            return Response({"success": True, "conversations": serializer.data}, status=200)
+
         except Exception as e:
-            return Response({'success': False, 'error': str(e), 'conversations': []}, status=400)
+            return Response({"success": False, "error": str(e), "conversations": []}, status=400)
 
 
 class ConversationDetailView(APIView):
@@ -81,3 +89,12 @@ class ConversationDetailView(APIView):
         except Exception as e:
             # captura qualquer outro erro inesperado
             return Response({"error": f"Unexpected error: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class ConversationSummariesView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, pk):
+        summaries = ConversationSummary.objects.filter(conversation_id=pk).order_by('-date')
+        data = [{"date": s.date, "summary": s.summary} for s in summaries]
+        return Response({"success": True, "summaries": data}, status=200)

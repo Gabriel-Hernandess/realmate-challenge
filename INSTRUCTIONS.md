@@ -7,6 +7,10 @@
 * As rotas principais do desafio não exigem tokens de autenticação, para seguir o padrão proposto
 * Fora as definições principais seguidas pelas instruções do desafio, tudo é apenas para demonstrar breve conhecimento
 
+## Observação para testar geração de relatórios
+
+* Deve-se criar um arquivo .env e inserir a sua key do Groq, exemplo no arquivo .env: GROQ_API_KEY=sua_chave
+
 ## Pré-requisitos
 
 * Docker e Docker Compose instalados
